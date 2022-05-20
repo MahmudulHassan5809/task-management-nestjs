@@ -11,7 +11,7 @@ import {
 import { CreateTaskDto } from './dtos/create-task.dto';
 import { GetTasksFilterDto } from './dtos/get-tasks-filter.dto';
 import { UpdateTasksStatusDto } from './dtos/update-task-status.dto';
-import { Task, TaskStatus } from './tasks.model';
+import { ITask, TaskStatus } from './tasks.model';
 import { TasksService } from './tasks.service';
 
 @Controller('tasks')
@@ -19,7 +19,7 @@ export class TasksController {
     constructor(private tasksService: TasksService) {}
 
     @Get('')
-    getTasks(@Query() filterDto: GetTasksFilterDto): Task[] {
+    getTasks(@Query() filterDto: GetTasksFilterDto): ITask[] {
         if (Object.keys(filterDto).length) {
             return this.tasksService.getTasksWithFilters(filterDto);
         }
@@ -27,12 +27,12 @@ export class TasksController {
     }
 
     @Get('/:id')
-    getTaskById(@Param() id: string): Task {
+    getTaskById(@Param() id: string): ITask {
         return this.tasksService.getTaskById(id);
     }
 
     @Post('')
-    createTask(@Body() createTaskDto: CreateTaskDto): Task {
+    createTask(@Body() createTaskDto: CreateTaskDto): ITask {
         return this.tasksService.createTask(createTaskDto);
     }
 
@@ -45,7 +45,7 @@ export class TasksController {
     updateTaskStatus(
         @Param() id: string,
         @Body() updateTaskStatusDto: UpdateTasksStatusDto,
-    ): Task {
+    ): ITask {
         return this.tasksService.updateTaskStatus(
             id,
             updateTaskStatusDto.status,
