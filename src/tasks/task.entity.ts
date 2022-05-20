@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from '../auth/user.entity';
 import { ITask, TaskStatus } from './tasks.model';
@@ -17,5 +18,6 @@ export class Task implements ITask {
     status: TaskStatus;
 
     @ManyToMany((_type) => User, (user) => user.tasks, { eager: false })
+    @Exclude({ toPlainOnly: true })
     user: User;
 }
